@@ -4,10 +4,8 @@ import br.ufba.jnose.core.Config;
 import br.ufba.jnose.core.JNoseCore;
 import br.ufba.jnose.dto.TestClass;
 import br.ufba.jnose.dto.TestSmell;
-import com.tassiovirginio.jnoseanalyze.entidades.TestSmellBean;
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,7 +22,6 @@ import org.apache.wicket.util.lang.Bytes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
