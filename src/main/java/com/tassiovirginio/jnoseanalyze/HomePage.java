@@ -34,6 +34,10 @@ public class HomePage extends WebPage {
     private AjaxButton btSubmit;
 
     public HomePage() {
+        this(new ArrayList<>());
+    }
+
+    public HomePage(List<TestSmell> listaTestSmells) {
 
         WebRequest req = (WebRequest) RequestCycle.get().getRequest();
         HttpServletRequest httpReq = (HttpServletRequest) req.getContainerRequest();
@@ -41,7 +45,7 @@ public class HomePage extends WebPage {
 
         WebMarkupContainer containerFeedback = new WebMarkupContainer("containerFeedback");
         containerFeedback.setOutputMarkupId(true);
-        containerFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(3)));
+        containerFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(10)));
         add(containerFeedback);
 
         FeedbackPanel feedbackPanel1 = new FeedbackPanel("feedback");
@@ -49,20 +53,18 @@ public class HomePage extends WebPage {
         containerFeedback.add(feedbackPanel1);
 
         Form form = new Form<Void>("fom");
-
         form.setMultiPart(true);
         form.setMaxSize(Bytes.kilobytes(1000));
+        form.setOutputMarkupId(true);
 
         FileUploadField fileUpload1 = new FileUploadField("fileUpload1");
         fileUpload1.setRequired(true);
         form.add(fileUpload1);
 
         FileUploadField fileUpload2 = new FileUploadField("fileUpload2");
-        fileUpload2.setRequired(true);
+        fileUpload2.setRequired(false);
         form.add(fileUpload2);
 
-
-        form.setOutputMarkupId(true);
 
         btSubmit = new AjaxButton("btSubmit") {
             @Override
@@ -72,31 +74,53 @@ public class HomePage extends WebPage {
 
                 final FileUpload uploadedFile2 = fileUpload2.getFileUpload();
 
-                File newFile = null;
+                File classTestFile = null;
+                File classProductionFile = null;
 
-                if (uploadedFile1 != null) {
-                    newFile = new File("src/main/webapp/fotos/"+uploadedFile1.getClientFileName());
-                    if (newFile.exists()) {
-                        newFile.delete();
-                    }
+                if(uploadedFile1 != null){
                     try {
-                        newFile.createNewFile();
-                        uploadedFile1.writeTo(newFile);
-                        System.out.println("saved file: " + uploadedFile1.getClientFileName());
-                        info("saved file: " + uploadedFile1.getClientFileName());
+                        classTestFile = uploadedFile1.writeToTempFile();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        throw new IllegalStateException("Error");
                     }
                 }
 
+                if(uploadedFile2 != null){
+                    try {
+                        classProductionFile = uploadedFile1.writeToTempFile();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
-                List<TestSmell> listaPatrimonio = new ArrayList<>(); //DBCore.getPatrimonios(usuario);
-                listview.setList(listaPatrimonio);
+//                File newFile = null;
 
-                target.add(container,form,containerFeedback);
+//                if (uploadedFile1 != null) {
+//                    newFile = new File("src/main/webapp/fotos/" + uploadedFile1.getClientFileName());
+//                    if (newFile.exists()) {
+//                        newFile.delete();
+//                    }
+//                    try {
+//                        newFile.createNewFile();
+//                        uploadedFile1.writeTo(newFile);
+//                        System.out.println("saved file: " + uploadedFile1.getClientFileName());
+//                        info("saved file: " + uploadedFile1.getClientFileName());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        throw new IllegalStateException("Error");
+//                    }
+//                }
 
-                info("Patrimonio Gravado");
+
+                List<TestSmell> listaTestSmell = new ArrayList<>(); //DBCore.getPatrimonios(usuario);
+                listview.setList(listaTestSmell);
+
+                target.add(container, form, containerFeedback);
+
+                info("ClassTest: " + uploadedFile1.getClientFileName());
+
+                if(classProductionFile != null)
+                info("ClassProduction: " + uploadedFile2.getClientFileName());
             }
         };
         form.add(btSubmit);
@@ -107,8 +131,6 @@ public class HomePage extends WebPage {
         containerInfo.setOutputMarkupId(true);
         containerInfo.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(1)));
         add(containerInfo);
-
-        List<TestSmell> listaTestSmells = new ArrayList<>(); //DBCore.getPatrimonios(usuario);
 
         listview = new ListView<>("listview", listaTestSmells) {
             protected void populateItem(ListItem<TestSmell> item) {
