@@ -50,7 +50,7 @@ public class HomePage extends WebPage {
 
         WebMarkupContainer containerFeedback = new WebMarkupContainer("containerFeedback");
         containerFeedback.setOutputMarkupId(true);
-        containerFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(10)));
+//        containerFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(10)));
         add(containerFeedback);
 
         FeedbackPanel feedbackPanel1 = new FeedbackPanel("feedback");
@@ -103,15 +103,18 @@ public class HomePage extends WebPage {
                 TestClass testClass = new TestClass();
                 testClass.setName(uploadedFile1.getClientFileName());
                 testClass.setPathFile(classTestFile.getAbsolutePath());
-                if(classProductionFile != null)
-                testClass.setProductionFile(classProductionFile.getAbsolutePath());
+                if(classProductionFile != null) {
+                    testClass.setProductionFile(classProductionFile.getAbsolutePath());
+                }else{
+                    testClass.setProductionFile("");
+                }
                 testClass.setProjectName("");
 
                 //Mudar a lógica depois no Core
                 testClass.setJunitVersion(TestClass.JunitVersion.JUnit4);
 
 
-                JNoseCore jNoseCore = new JNoseCore(loadConfig(uploadedFile2 != null));
+                JNoseCore jNoseCore = new JNoseCore(loadConfig());
                 Boolean isClassTest = jNoseCore.isTestFile(testClass);
                 jNoseCore.getTestSmells(testClass);
 
@@ -132,7 +135,7 @@ public class HomePage extends WebPage {
 
         WebMarkupContainer containerInfo = new WebMarkupContainer("containerInfo");
         containerInfo.setOutputMarkupId(true);
-        containerInfo.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(1)));
+//        containerInfo.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(1)));
         add(containerInfo);
 
         listview = new ListView<TestSmell>("listview", listaTestSmellBeans) {
@@ -153,7 +156,7 @@ public class HomePage extends WebPage {
 
     }
 
-    private Config loadConfig(boolean classProduction){
+    private Config loadConfig(){
         Config config = new Config() {
             @Override
             public Boolean assertionRoulette() {
