@@ -2,7 +2,7 @@ package com.tassiovirginio.jnoseanalyze.entidades;
 
 import java.io.Serializable;
 
-public class TestSmell implements Serializable {
+public class TestSmellBean implements Serializable {
 
     private Integer id;
     private String nome;

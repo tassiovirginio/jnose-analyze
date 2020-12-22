@@ -1,11 +1,16 @@
 package com.tassiovirginio.jnoseanalyze;
 
-import com.tassiovirginio.jnoseanalyze.entidades.TestSmell;
+import br.ufba.jnose.core.Config;
+import br.ufba.jnose.core.JNoseCore;
+import br.ufba.jnose.dto.TestClass;
+import br.ufba.jnose.dto.TestSmell;
+import com.tassiovirginio.jnoseanalyze.entidades.TestSmellBean;
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -37,7 +42,7 @@ public class HomePage extends WebPage {
         this(new ArrayList<>());
     }
 
-    public HomePage(List<TestSmell> listaTestSmells) {
+    public HomePage(List<TestSmell> listaTestSmellBeans) {
 
         WebRequest req = (WebRequest) RequestCycle.get().getRequest();
         HttpServletRequest httpReq = (HttpServletRequest) req.getContainerRequest();
@@ -79,7 +84,8 @@ public class HomePage extends WebPage {
 
                 if(uploadedFile1 != null){
                     try {
-                        classTestFile = uploadedFile1.writeToTempFile();
+                        classTestFile = new File(uploadedFile1.getClientFileName());
+                        uploadedFile1.writeTo(classTestFile);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -87,33 +93,30 @@ public class HomePage extends WebPage {
 
                 if(uploadedFile2 != null){
                     try {
-                        classProductionFile = uploadedFile1.writeToTempFile();
+                        classProductionFile = new File(uploadedFile2.getClientFileName());
+                        uploadedFile2.writeTo(classProductionFile);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
 
-//                File newFile = null;
+                TestClass testClass = new TestClass();
+                testClass.setName(uploadedFile1.getClientFileName());
+                testClass.setPathFile(classTestFile.getAbsolutePath());
+                if(classProductionFile != null)
+                testClass.setProductionFile(classProductionFile.getAbsolutePath());
+                testClass.setProjectName("");
 
-//                if (uploadedFile1 != null) {
-//                    newFile = new File("src/main/webapp/fotos/" + uploadedFile1.getClientFileName());
-//                    if (newFile.exists()) {
-//                        newFile.delete();
-//                    }
-//                    try {
-//                        newFile.createNewFile();
-//                        uploadedFile1.writeTo(newFile);
-//                        System.out.println("saved file: " + uploadedFile1.getClientFileName());
-//                        info("saved file: " + uploadedFile1.getClientFileName());
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        throw new IllegalStateException("Error");
-//                    }
-//                }
+                //Mudar a lógica depois no Core
+                testClass.setJunitVersion(TestClass.JunitVersion.JUnit4);
 
 
-                List<TestSmell> listaTestSmell = new ArrayList<>(); //DBCore.getPatrimonios(usuario);
-                listview.setList(listaTestSmell);
+                JNoseCore jNoseCore = new JNoseCore(loadConfig(uploadedFile2 != null));
+                Boolean isClassTest = jNoseCore.isTestFile(testClass);
+                jNoseCore.getTestSmells(testClass);
+
+                List<TestSmell> listaTestSmellBean = testClass.getListTestSmell();
+                listview.setList(listaTestSmellBean);
 
                 target.add(container, form, containerFeedback);
 
@@ -132,9 +135,13 @@ public class HomePage extends WebPage {
         containerInfo.add(new AjaxSelfUpdatingTimerBehavior(Duration.ofSeconds(1)));
         add(containerInfo);
 
-        listview = new ListView<>("listview", listaTestSmells) {
+        listview = new ListView<TestSmell>("listview", listaTestSmellBeans) {
             protected void populateItem(ListItem<TestSmell> item) {
+                TestSmell testSmell = item.getModelObject();
 
+                item.add(new Label("nome",testSmell.getName()));
+                item.add(new Label("method",testSmell.getMethod()));
+                item.add(new Label("range",testSmell.getRange()));
 
             }
         };
@@ -144,6 +151,117 @@ public class HomePage extends WebPage {
         container.add(listview);
         add(container);
 
+    }
+
+    private Config loadConfig(boolean classProduction){
+        Config config = new Config() {
+            @Override
+            public Boolean assertionRoulette() {
+                return true;
+            }
+
+            @Override
+            public Boolean conditionalTestLogic() {
+                return true;
+            }
+
+            @Override
+            public Boolean constructorInitialization() {
+                return true;
+            }
+
+            @Override
+            public Boolean defaultTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean dependentTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean duplicateAssert() {
+                return true;
+            }
+
+            @Override
+            public Boolean eagerTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean emptyTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean exceptionCatchingThrowing() {
+                return true;
+            }
+
+            @Override
+            public Boolean generalFixture() {
+                return true;
+            }
+
+            @Override
+            public Boolean mysteryGuest() {
+                return true;
+            }
+
+            @Override
+            public Boolean printStatement() {
+                return true;
+            }
+
+            @Override
+            public Boolean redundantAssertion() {
+                return true;
+            }
+
+            @Override
+            public Boolean sensitiveEquality() {
+                return true;
+            }
+
+            @Override
+            public Boolean verboseTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean sleepyTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean lazyTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean unknownTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean ignoredTest() {
+                return true;
+            }
+
+            @Override
+            public Boolean resourceOptimism() {
+                return true;
+            }
+
+            @Override
+            public Boolean magicNumberTest() {
+                return true;
+            }
+        };
+
+        return config;
     }
 
 }
