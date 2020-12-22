@@ -1,4 +1,4 @@
-package br.edu.ifto.patrimonio.entidades;
+package com.tassiovirginio.jnoseanalyze.entidades;
 
 import java.io.Serializable;
 

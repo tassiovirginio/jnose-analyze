@@ -1,4 +1,4 @@
-package br.edu.ifto.patrimonio;
+package com.tassiovirginio.jnoseanalyze;
 
 import com.giffing.wicket.spring.boot.context.extensions.ApplicationInitExtension;
 import com.giffing.wicket.spring.boot.context.extensions.WicketApplicationInitConfiguration;

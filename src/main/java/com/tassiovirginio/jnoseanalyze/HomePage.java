@@ -1,6 +1,6 @@
-package br.edu.ifto.patrimonio;
+package com.tassiovirginio.jnoseanalyze;
 
-import br.edu.ifto.patrimonio.entidades.TestSmell;
+import com.tassiovirginio.jnoseanalyze.entidades.TestSmell;
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;

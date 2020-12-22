@@ -1,4 +1,4 @@
-package br.edu.ifto.patrimonio;
+package com.tassiovirginio.jnoseanalyze;
 
 import com.giffing.wicket.spring.boot.starter.web.config.WicketWebInitializerAutoConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
