@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>JNose-Analyze</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet'
+          type='text/css'/>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
+    <script>
+        $(function() {
+		$('.pop').on('click', function() {
+			$('.imagepreview').attr('src', $(this).find('img').attr('src'));
+			$('#imagemodal').modal('show');
+		});
+});
+
+
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">Sobre</h4>
+                    <p class="text-muted">
+                        Sistema de JNose-Analyze.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                    <path fill-rule="evenodd"
+                          d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                </svg>
+                <strong>&nbsp;&nbsp;JNose-Analyze</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main role="main">
+
+    <section class="jumbotron">
+        <div class="container">
+            <div wicket:id="containerFeedback" class="alert alert-danger" role="alert">
+                <span wicket:id="feedback">This is a danger alert—check it out!</span>
+            </div>
+            <form wicket:id="fom">
+                <div class="form-group row">
+                    <label for="classtest" class="col-sm-2 col-form-label col-form-label-sm">Class Test</label>
+                    <div class="col-sm-10">
+                        <input id="classtest" class="form-control form-control-sm" wicket:id="fileUpload1" type="file"
+                               required/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="classproduction" class="col-sm-2 col-form-label col-form-label-sm">Class Production</label>
+                    <div class="col-sm-10">
+                        <input id="classproduction" class="form-control form-control-sm" wicket:id="fileUpload2" type="file"
+                               required/>
+                    </div>
+                </div>
+                <input class="btn btn-primary" wicket:id="btSubmit" type="submit" value="Analyze"/>
+            </form>
+        </div>
+        <br>
+    </section>
+
+    <div wicket:id="container" class="container">
+        <div class="table-responsive-sm">
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Class Test</th>
+                    <th>Class Production</th>
+                    <th>Range</th>
+                    <th></th>
+                </tr>
+                <tr wicket:id="listview">
+                    <td wicket:id="nome"></td>
+                    <td wicket:id="classTest"></td>
+                    <td wicket:id="classProduction"></td>
+                    <td wicket:id="Range"></td>
+                    <td>
+                        <a href="#">view</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>
