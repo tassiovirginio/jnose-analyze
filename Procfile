@@ -1,1 +1,1 @@
-web: mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=54654
+web: mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=54654
