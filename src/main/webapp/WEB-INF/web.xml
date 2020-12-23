@@ -5,16 +5,18 @@
 
 	<display-name>jnose-analyze</display-name>
 
-	<!--
-		There are three means to configure Wickets configuration mode and they 
-		are tested in the order given.
-		
-		1) A system property: -Dwicket.configuration 
-		2) servlet specific <init-param> 
-		3) context specific <context-param>
+<!--	<servlet>-->
+<!--		<servlet-name>dispatcher</servlet-name>-->
+<!--		<servlet-class>-->
+<!--			org.springframework.web.servlet.DispatcherServlet-->
+<!--		</servlet-class>-->
+<!--	</servlet>-->
 
-		The value might be either "development" (reloading when templates change) or 
-		"deployment". If no configuration is found, "development" is the default. -->
+<!--	<servlet-mapping>-->
+<!--		<servlet-name>dispatcher</servlet-name>-->
+<!--		<url-pattern>/</url-pattern>-->
+<!--	</servlet-mapping>-->
+
 
 	<filter>
 		<filter-name>wicket.jnoseanalyze</filter-name>

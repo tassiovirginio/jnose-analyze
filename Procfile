@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar webapp-runner.jar $WEBAPP_RUNNER_OPTS --port 54654 target/jnoseanalyze.war
+web: mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=54654
