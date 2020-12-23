@@ -1,1 +1,1 @@
-web: mvn spring-boot:run
+web: java $JAVA_OPTS -jar webapp-runner.jar $WEBAPP_RUNNER_OPTS --port 54654 target/jnoseanalyze.war
