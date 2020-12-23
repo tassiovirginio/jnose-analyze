@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/jnose-analyze.war
+web: java $JAVA_OPTS -jar webapp-runner.jar $WEBAPP_RUNNER_OPTS --port $PORT target/jnoseanalyze.war
